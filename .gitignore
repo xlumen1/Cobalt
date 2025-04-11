@@ -54,3 +54,6 @@ dkms.conf
 # Vscode
 .vscode/
 .vscode-test/
+
+# Config
+HCFG.h
