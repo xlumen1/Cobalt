@@ -1,3 +1,5 @@
+.PHONY: build clean
+
 DIR_SRC = src
 DIR_OBJ = out
 DIR_BUILD = build
@@ -7,16 +9,18 @@ OBJ := $(patsubst %.c,$(DIR_OBJ)/%.o,$(SRC))
 
 CCFLAGS = -Wall -Wextra -O2 
 LDFLAGS = -lm
+LDLIBS = /lib/x86_64-linux-gnu/crt1.o /lib/x86_64-linux-gnu/crti.o out/src/main.o -lc -lm /lib/x86_64-linux-gnu/crtn.o
 
 CC = gcc
 LD = ld
 
 build: $(OBJ)
 	@mkdir -p $(DIR_BUILD)
-	$(LD) $(LDFLAGS) $(OBJ) $(DIR_BUILD)/ccb
+	$(LD) $(LDLIBS) $(LDFLAGS) $(OBJ) -o $(DIR_BUILD)/ccb
 
 $(OBJ): $(SRC)
-	
+	@mkdir -p $(dir $@)
+	gcc $(CCFLAGS) -c $< -o $@
 
 config:
 	@touch HCFG.h
@@ -37,3 +41,7 @@ config:
 		sed -i '/#define FEATURE_Y/d' HCFG.h; \
 	fi
 	@echo "Configuration complete."
+
+clean:
+	@echo "Cleaning up..."
+	@rm -rf $(DIR_OBJ)
