@@ -1,1 +1,29 @@
-// Test
+package cb.dev.tests;
+
+importf cb.std.Tests.assert;
+import cb.std.Tests.<Test, ParaTest, ProvTest>; // Test, Parameterized Test, and Provider Test annotations
+import cb.std;
+
+@Test
+void that_true_is_true()
+{
+    assert(true);
+}
+
+@Test
+void that_false_is_not_true()
+{
+    assert(!false);
+}
+
+@ParaTest([
+    [1, 2, 3],
+    [0b100, 0b1000, 0b1100],
+    [0xAA, 0x54, 0xFE],
+    [0b100, 1, 0x5]
+])
+void that_addsub_addsubs(array[i32] test_val)
+{
+    assert(test_val[0] + test_val[1] == test_val[2]);
+    assert(test_val[2] - test_val[0] == test_val[1]);
+}
